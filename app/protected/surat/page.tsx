@@ -67,7 +67,7 @@ export default function FinalPage() {
                     </header>
 
                     {/* ISI SURAT */}
-                    <section className="space-y-5 text-sm leading-relaxed md:text-base">
+                    <section className="text-gray-50 space-y-5 text-sm leading-relaxed md:text-base">
 
                         <p><Typewriter text="Halo sayang…..😘" /></p>
 
