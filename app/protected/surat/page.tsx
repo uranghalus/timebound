@@ -67,7 +67,7 @@ export default function FinalPage() {
                     </header>
 
                     {/* ISI SURAT */}
-                    <section className="text-gray-50 space-y-5 text-sm leading-relaxed md:text-base">
+                    <section className="text-gray-200 space-y-5 text-sm leading-relaxed md:text-base">
 
                         <p><Typewriter text="Halo sayang…..😘" /></p>
 
@@ -119,7 +119,7 @@ export default function FinalPage() {
                             <Typewriter text="Ini adalah salah satu doa mama yang Allah kabulkan." />
                         </p>
 
-                        <blockquote className="border-l-2 border-white/30 pl-4 italic text-muted-foreground">
+                        <blockquote className="border-l-2 border-white/30 pl-4 italic text-white">
                             <Typewriter
                                 delay={26}
                                 text="“Allah kada mungkin meandak sesuatu dan melapas tanpa ada gantinya. Pasti ada yang lebih baik lagi kenanya.”"
