@@ -26,9 +26,7 @@ export default function ProtectedPage() {
        EASTER EGG (3 KLIK)
     ===================== */
     useEffect(() => {
-        if (clicks >= 3) {
-            setSecret(true)
-        }
+        if (clicks >= 3) setSecret(true)
     }, [clicks])
 
     return (
@@ -47,13 +45,7 @@ export default function ProtectedPage() {
             {/* COUNTDOWN KECIL */}
             <div
                 key={count}
-                className="
-          mt-6
-          text-xs
-          font-mono
-          text-muted-foreground
-          animate-fade
-        "
+                className="mt-6 text-xs font-mono text-muted-foreground animate-fade"
             >
                 {count}…
             </div>

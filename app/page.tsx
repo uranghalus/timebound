@@ -9,22 +9,16 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 
-function getWITANow() {
-  const now = new Date()
-  const utc = now.getTime() + now.getTimezoneOffset() * 60000
-  return new Date(utc + 8 * 60 * 60 * 1000)
-}
-
-function getUnlockDateWITA() {
-  const now = getWITANow()
-  const unlock = new Date(now)
-  unlock.setMonth(now.getMonth() + 1)
-  unlock.setDate(1)
-  unlock.setHours(0, 0, 0, 0)
-  return unlock
-}
+/* =====================
+   UNLOCK TIME (FINAL)
+   01 TANGGAL 1
+   JAM 00:00 WITA
+   UTC +8
+===================== */
+const UNLOCK_AT = new Date(
+  '2026-01-01T00:00:00+08:00'
+).getTime()
 
 function getDialogText(diff: number) {
   const hour = 1000 * 60 * 60
@@ -39,21 +33,21 @@ function getDialogText(diff: number) {
   if (diff < hour) {
     return {
       title: '💓 Dikit lagi',
-      text: 'Jangan ke mana-mana ya.\nIni sudah sangat dekat.',
+      text: 'Semakin dekat → semakin gemas.\nTahan ya…',
     }
   }
 
   if (diff < hour * 6) {
     return {
       title: '⏳ Hampir',
-      text: 'Waktunya makin dekat.\nSabar sedikit lagi.',
+      text: 'Waktunya makin dekat.\nHangat rasanya.',
     }
   }
 
   if (diff < hour * 24) {
     return {
       title: '👀 Sebentar lagi',
-      text: 'Sudah kelihatan tandanya.\nTunggu ya.',
+      text: 'Sudah kelihatan tandanya.\nPelan-pelan ya.',
     }
   }
 
@@ -65,24 +59,20 @@ function getDialogText(diff: number) {
 
 export default function HomePage() {
   const [open, setOpen] = useState(false)
-  const [remaining, setRemaining] = useState(0)
+  const [now, setNow] = useState(Date.now())
   const [unlocking, setUnlocking] = useState(false)
+
   useEffect(() => {
-    const unlock = getUnlockDateWITA()
-
-    const timer = setInterval(() => {
-      const now = getWITANow()
-      setRemaining(unlock.getTime() - now.getTime())
-    }, 1000)
-
-    return () => clearInterval(timer)
+    const i = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(i)
   }, [])
 
+  const remaining = Math.max(0, UNLOCK_AT - now)
   const dialog = getDialogText(remaining)
 
-  const h = Math.max(0, Math.floor(remaining / (1000 * 60 * 60)))
-  const m = Math.max(0, Math.floor((remaining / (1000 * 60)) % 60))
-  const s = Math.max(0, Math.floor((remaining / 1000) % 60))
+  const h = Math.floor(remaining / 1000 / 60 / 60)
+  const m = Math.floor((remaining / 1000 / 60) % 60)
+  const s = Math.floor((remaining / 1000) % 60)
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center gap-8 text-center">
@@ -105,8 +95,10 @@ export default function HomePage() {
 
       {/* Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className={`text-center ${unlocking ? 'unlock-fade unlock-glass' : ''
-          }`}>
+        <DialogContent
+          className={`text-center ${unlocking ? 'unlock-fade unlock-glass' : ''
+            }`}
+        >
           <DialogHeader>
             <DialogTitle>{dialog.title}</DialogTitle>
           </DialogHeader>
@@ -141,12 +133,14 @@ export default function HomePage() {
 
           <DialogFooter className="mt-6 flex justify-center">
             {remaining <= 0 ? (
-              <Button onClick={() => {
-                setUnlocking(true)
-                setTimeout(() => {
-                  window.location.href = '/protected'
-                }, 800)
-              }}>
+              <Button
+                onClick={() => {
+                  setUnlocking(true)
+                  setTimeout(() => {
+                    window.location.href = '/protected'
+                  }, 900)
+                }}
+              >
                 Ayoo dibuka yaa...
               </Button>
             ) : (
