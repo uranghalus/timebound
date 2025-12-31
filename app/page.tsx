@@ -105,7 +105,8 @@ export default function HomePage() {
 
       {/* Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="text-center">
+        <DialogContent className={`text-center ${unlocking ? 'unlock-fade unlock-glass' : ''
+          }`}>
           <DialogHeader>
             <DialogTitle>{dialog.title}</DialogTitle>
           </DialogHeader>
